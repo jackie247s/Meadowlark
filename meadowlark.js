@@ -1,15 +1,7 @@
 const express = require('express');
+const fortunes = require('./lib/fortune.js');
 const port = 3000;
 const app = express();
-
-// Set some data for dynamic view
-var fortunes = [
-  "Conquer your fears or they will conquer you.",
-  "Rivers need springs.",
-  "Do not fear what you don't know.",
-  "You will have a pleasant surprise.",
-  "Whenever possible, keep it simple."
-];
 
 // Set Template Engine to Handlebars
 var handlebars = require('express3-handlebars').create({defaultLayout : 'main'});
@@ -24,8 +16,7 @@ app.get('/', function(req, res){
   res.render('home');
 });
 app.get('/about', function(req, res){
-  var randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  res.render('about', {fortune : randomFortune});
+  res.render('about', {fortune : fortunes.getFortune()});
 });
 
 // Set middleware for handling incorrect URLs
