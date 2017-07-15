@@ -11,6 +11,13 @@ app.set('view engine','handlebars');
 // Use middleware for serving static files
 app.use(express.static(__dirname + '/public'));
 
+// Use middleware for setting up tests
+app.use(function(req, res, next){
+  res.locals.showTests = app.get('env') !== 'production' &&
+  req.query.test === '1';
+  next();
+});
+
 // Set Routes for Responding with the Required views
 app.get('/', function(req, res){
   res.render('home');
